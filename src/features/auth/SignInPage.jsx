@@ -22,9 +22,9 @@ const SignInPage = () => {
     setLoading(true); // Start loading
     try {
       const response = await signIn(phoneNumber, password);
-      localStorage.setItem("token", response.token); // ✅ Save token
-      toast.success("Login successful!");
-      navigate("/"); // or whatever page
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("role", response.user.role); // ✅ Save role here
+      navigate("/dashboard");
     } catch (err) {
       console.error("Error data:", err.response?.data);
       toast.error(

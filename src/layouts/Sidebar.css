@@ -1,0 +1,45 @@
+/* src/layouts/Sidebar.css */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background-color: #1e1e2f;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header h3 {
+  margin: 0 0 30px 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  color: #c5c7cd;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: #2c2c44;
+  color: white;
+}
+
+.sidebar-link.active {
+  background-color: #4a6cf7;
+  color: white;
+  font-weight: bold;
+}
