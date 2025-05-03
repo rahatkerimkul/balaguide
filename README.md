@@ -1,9 +1,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+
 # Getting Started with Create React App
+
 =======
+
 # BalaGuide 🎓
->>>>>>> 1af6df4cf0b77a0afdb3b02cba9689d935c8f155
 
 **BalaGuide** is a smart online platform that helps parents find and register their children for extracurricular courses easily.  
 It also provides education centers and teachers powerful dashboards to manage students, courses, groups, and performance.
@@ -81,12 +83,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
+# This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
 # balaguide
+
 This is the Front end part of the BalaGuide platform
->>>>>>> 31dd88b3b91e1aa3c3dfc76d3ed60550ec726fb6
-=======
+
 ```bash
 git clone https://github.com/rahatkerimkul/balaguide.git
->>>>>>> 1af6df4cf0b77a0afdb3b02cba9689d935c8f155
+```
