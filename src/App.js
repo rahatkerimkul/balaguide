@@ -17,6 +17,9 @@ function App() {
       />
     </div>
   );
+  //   git add .
+  // git commit -m "Fixed typo in AppRoutes and created LandingPage"
+  // git push origin main
 }
 
 export default App;

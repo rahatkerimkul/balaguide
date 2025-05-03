@@ -1,21 +1,30 @@
-// src/features/auth/authService.js
 import axios from "axios";
+import { authHeader } from "../../utils/authHeader";
+const API_URL = "balaguide-clone.netbird.cloud:8081";
 
-const BASE_URL = "http://balaguide.netbird.cloud:8081"; // Local server from Swagger
+export const signIn = async (phoneNumber, password) => {
+  console.log("Sending:", { phoneNumber, password });
+  const response = await axios.post(
+    `${API_URL}/auth/sign-in`,
+    {
+      phoneNumber,
+      password,
+    },
+    { headers: authHeader() }
+  );
 
-export const signUp = async (phoneNumber, password, role) => {
-  const response = await axios.post(`${BASE_URL}/auth/sign-up`, {
-    phoneNumber,
-    password,
-    role,
-  });
   return response.data;
 };
 
-export const signIn = async (phoneNumber, password) => {
-  const response = await axios.post(`${BASE_URL}/auth/sign-in`, {
-    phoneNumber,
-    password,
-  });
+export const signUp = async (phoneNumber, password, role) => {
+  const response = await axios.post(
+    `${API_URL}/auth/sign-up`,
+    {
+      phoneNumber,
+      password,
+      role,
+    },
+    { headers: authHeader() }
+  );
   return response.data;
 };

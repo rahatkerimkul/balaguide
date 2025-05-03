@@ -25,10 +25,19 @@ const SignUpPage = () => {
     try {
       await signUp(phoneNumber, password, role);
       toast.success("Registration successful!");
-      navigate("/signin");
+      if (role === "TEACHER") {
+        navigate("/create-teacher");
+      } else if (role === "EDUCATION CENTER") {
+        navigate("/create-education-center");
+      } else {
+        navigate("/signin");
+      }
     } catch (err) {
-      console.error(err);
-      toast.error("Registration failed. Try again.");
+      console.error("Error data:", err.response?.data);
+      toast.error(
+        "Registration failed. Try again. " + err.response?.data?.message ||
+          "Unknown error"
+      );
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 500);
     } finally {

@@ -21,12 +21,15 @@ const SignInPage = () => {
     e.preventDefault();
     setLoading(true); // Start loading
     try {
-      await signIn(phoneNumber, password);
+      const response = await signIn(phoneNumber, password);
+      localStorage.setItem("token", response.token); // ✅ Save token
       toast.success("Login successful!");
-      navigate("/");
+      navigate("/"); // or whatever page
     } catch (err) {
-      console.error(err);
-      toast.error("Login failed. Check your credentials.");
+      console.error("Error data:", err.response?.data);
+      toast.error(
+        "Login failed: " + err.response?.data?.message || "Unknown error"
+      );
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 500);
     } finally {
