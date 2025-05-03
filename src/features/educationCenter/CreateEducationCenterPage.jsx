@@ -2,8 +2,14 @@
 import React, { useState } from "react";
 import { createEducationCenter } from "./educationCenterService";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { signIn } from "../auth/authService";
+import { useNavigate } from "react-router-dom";
 
 const CreateEducationCenterPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { phoneNumber, password } = location.state || {};
   const [formData, setFormData] = useState({
     name: "",
     dateOfCreated: "",
@@ -22,7 +28,11 @@ const CreateEducationCenterPage = () => {
     e.preventDefault();
     try {
       await createEducationCenter(formData);
+      // After successful profile creation
+      const response = await signIn(phoneNumber, password);
+      localStorage.setItem("token", response.token);
       toast.success("Education Center created successfully!");
+      navigate("/dashboard"); // or wherever you want
     } catch (error) {
       console.error(error.response?.data || error.message);
       toast.error("Failed to create Education Center.");

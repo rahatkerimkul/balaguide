@@ -26,9 +26,11 @@ const SignUpPage = () => {
       await signUp(phoneNumber, password, role);
       toast.success("Registration successful!");
       if (role === "TEACHER") {
-        navigate("/create-teacher");
+        navigate("/create-teacher", { state: { phoneNumber, password } });
       } else if (role === "EDUCATION CENTER") {
-        navigate("/create-education-center");
+        navigate("/create-education-center", {
+          state: { phoneNumber, password },
+        });
       } else {
         navigate("/signin");
       }

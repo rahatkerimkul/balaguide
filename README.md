@@ -1,30 +1,43 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Getting Started with Create React App
+=======
+# BalaGuide 🎓
+>>>>>>> 1af6df4cf0b77a0afdb3b02cba9689d935c8f155
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**BalaGuide** is a smart online platform that helps parents find and register their children for extracurricular courses easily.  
+It also provides education centers and teachers powerful dashboards to manage students, courses, groups, and performance.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- Modern Landing Page (built with React.js)
+- User Authentication (Sign In, Sign Up with Phone Number & Password)
+- Dynamic roles: Education Center and Teacher
+- Charts and Analytics (with Recharts)
+- Beautiful UI/UX
+- Full responsive design
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Built With
 
-### `npm test`
+- **React.js** (Frontend Framework)
+- **React Router** (Page navigation)
+- **Recharts** (Graphs and charts)
+- **React Toastify** (Notifications)
+- **Axios** (API requests)
+- **GitHub** (Version control)
+- **Vite** (Optional if you used Vite instead of Create React App)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🖥️ Installation and Setup Instructions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
 
+<<<<<<< HEAD
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
@@ -73,3 +86,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # balaguide
 This is the Front end part of the BalaGuide platform
 >>>>>>> 31dd88b3b91e1aa3c3dfc76d3ed60550ec726fb6
+=======
+```bash
+git clone https://github.com/rahatkerimkul/balaguide.git
+>>>>>>> 1af6df4cf0b77a0afdb3b02cba9689d935c8f155
