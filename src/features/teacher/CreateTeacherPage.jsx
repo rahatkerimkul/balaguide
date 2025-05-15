@@ -2,13 +2,15 @@
 import React, { useState } from "react";
 import { createTeacher } from "./teacherService";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { signIn } from "../auth/authService";
-import { useNavigate } from "react-router-dom";
+import "../../styles/AuthForm.css";
+
 const CreateTeacherPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { phoneNumber, password } = location.state || {};
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,11 +31,9 @@ const CreateTeacherPage = () => {
     try {
       await createTeacher(formData);
       toast.success("Teacher profile created successfully!");
-
-      // After successful profile creation
       const response = await signIn(phoneNumber, password);
       localStorage.setItem("token", response.token);
-      navigate("/dashboard"); // or wherever you want
+      navigate("/dashboard");
     } catch (error) {
       console.error(error.response?.data || error.message);
       toast.error("Failed to create teacher profile.");
@@ -41,8 +41,8 @@ const CreateTeacherPage = () => {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
+    <div className="auth-form-container">
+      <form onSubmit={handleSubmit} className="auth-form-form">
         <h2>Create Teacher Profile</h2>
         {[
           "firstName",

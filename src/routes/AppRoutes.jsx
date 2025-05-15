@@ -6,7 +6,7 @@ import ProtectedRoute from "../components/ProtectedRoute"; // If token is not em
 import CreateTeacherPage from "../features/teacher/CreateTeacherPage"; //to create Teacher
 import CreateEducationCenterPage from "../features/educationCenter/CreateEducationCenterPage"; // to create education center
 import DashboardLayout from "../layouts/DashboardLayout"; //all dashboards are rendered by this
-
+import LandingPage from "../features/landing/LandingPage";
 import DashboardHome from "../pages/DashboardHome"; //after signing in person will see this page
 import GroupsPage from "../pages/GroupsPage"; //after signing in
 import CreateCoursePage from "../pages/CreateCoursePage"; //after signing in
@@ -16,6 +16,7 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/create-teacher" element={<CreateTeacherPage />} />
