@@ -1,0 +1,27 @@
+.schedule-create-container {
+  padding: 2rem;
+  background-color: #f8f8f8;
+  max-width: 600px;
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-input {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 0.25rem;
+}
+
+.schedule-submit-button {
+  padding: 0.7rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

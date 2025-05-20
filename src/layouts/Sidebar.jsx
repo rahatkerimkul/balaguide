@@ -15,7 +15,7 @@ const Sidebar = ({ role }) => {
       { to: "/courses", label: "📚 Courses" },
       { to: "/create-course", label: "➕ Create Course" },
       { to: "/teachers", label: "🧑‍🏫 Teachers" },
-      { to: "/create-teacher", label: "➕ Create Teacher" },
+      { to: "/create-teacher2", label: "➕ Create Teacher" },
       { to: "/attendance-reports", label: "📈 Attendance Reports" }
     );
   } else if (role === "TEACHER") {
@@ -26,7 +26,7 @@ const Sidebar = ({ role }) => {
   }
 
   menuItems.push(
-    { to: "/schedule", label: "📅 Schedule" },
+    { to: "/schedules", label: "📅 Schedule" },
     { to: "/settings", label: "⚙️ Settings" },
     { to: "/logout", label: "🚪 Logout" }
   );

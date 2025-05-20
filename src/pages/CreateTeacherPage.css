@@ -1,0 +1,39 @@
+.create-teacher-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.create-teacher-title {
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+}
+
+.create-teacher-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.create-teacher-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.create-teacher-input,
+.create-teacher-select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 0.3rem;
+}
+
+.create-teacher-button {
+  padding: 0.7rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
