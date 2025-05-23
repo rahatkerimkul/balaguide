@@ -40,11 +40,7 @@ const GroupsPage = () => {
 
       <div className="groups-list">
         {groups.map((group) => (
-          <div
-            key={group.id}
-            onClick={() => navigate(`/groups/${group.id}`)}
-            className="group-card"
-          >
+          <div key={group.id} className="group-card">
             <h3 className="group-name">{group.name}</h3>
             <p>Language: {group.language}</p>
             <p>
@@ -57,6 +53,18 @@ const GroupsPage = () => {
             {group.groupFull && (
               <p className="group-full-flag">⚠ Group is full</p>
             )}
+            <button
+              className="group-lessons-button"
+              onClick={() => navigate(`/groups/${group.id}/lessons`)}
+            >
+              📚 View Lessons
+            </button>
+            <button
+              className="group-details-button"
+              onClick={() => navigate(`/groups/${group.id}`)}
+            >
+              Group Details
+            </button>
           </div>
         ))}
       </div>

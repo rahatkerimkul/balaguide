@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { clearAuth } from "../utils/storage";
+import { clearAuth } from "../../utils/storage";
 
 const Logout = () => {
   const navigate = useNavigate();

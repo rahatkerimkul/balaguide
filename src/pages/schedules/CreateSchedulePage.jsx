@@ -37,7 +37,7 @@ const CreateSchedulePage = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "/api/v1/schedules",
+        "/api/v1/create-schedule",
         {
           ...formData,
           startTime: `${formData.startTime}:00`, // format HH:mm:ss

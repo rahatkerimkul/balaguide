@@ -57,3 +57,12 @@
 .groups-create-button:hover {
   background-color: #0056b3;
 }
+.group-lessons-button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

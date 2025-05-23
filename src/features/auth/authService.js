@@ -1,11 +1,12 @@
 import axios from "axios";
 import { authHeader } from "../../utils/authHeader";
-const API_URL = "balaguide-clone.netbird.cloud:8081";
+const USE_MOCK = process.env.NODE_ENV === "development";
+const API_URL = USE_MOCK ? "" : "https://balaguide-clone.netbird.cloud:8081";
 
 export const signIn = async (phoneNumber, password) => {
   console.log("Sending:", { phoneNumber, password });
   const response = await axios.post(
-    `${API_URL}/auth/sign-in`,
+    `${API_URL}/api/v1/auth/sign-in`,
     {
       phoneNumber,
       password,

@@ -7,19 +7,21 @@ import CreateTeacherPage from "../features/teacher/CreateTeacherPage"; //to crea
 import CreateEducationCenterPage from "../features/educationCenter/CreateEducationCenterPage"; // to create education center
 import DashboardLayout from "../layouts/DashboardLayout"; //all dashboards are rendered by this
 import LandingPage from "../features/landing/LandingPage";
-import DashboardHome from "../pages/DashboardHome"; //after signing in person will see this page
-import GroupsPage from "../pages/GroupsPage"; //after signing in
-import CreateCoursePage from "../pages/CreateCoursePage"; //after signing in
-import Logout from "../pages/logout";
+import DashboardHome from "../pages/dashboard/DashboardHome"; //after signing in person will see this page
+import GroupsPage from "../pages/groups/GroupsPage"; //after signing in
+import CreateCoursePage from "../pages/courses/CreateCoursePage"; //after signing in
+import Logout from "../pages/dashboard/logout";
 import EducationCenterDashboard from "../features/educationCenter/EducationCenterDashboard";
-import CreateGroupPage from "../pages/CreateGroupPage";
-import GroupDetailsPage from "../pages/GroupDetailsPage";
-import CoursesPage from "../pages/CoursesPage";
-import TeachersPage from "../pages/TeachersPage";
-import CreateTeacherPage2 from "../pages/CreateTeacherPage";
-import CreateSchedulePage from "../pages/CreateSchedulePage";
-import GroupSchedulePage from "../pages/GroupSchedulePage";
-import AllSchedulesPage from "../pages/AllSchedulesPage";
+import CreateGroupPage from "../pages/groups/CreateGroupPage";
+import GroupDetailsPage from "../pages/groups/GroupDetailsPage";
+import CoursesPage from "../pages/courses/CoursesPage";
+import TeachersPage from "../pages/teachers/TeachersPage";
+import CreateTeacherPage2 from "../pages/teachers/CreateTeacherPage";
+import CreateSchedulePage from "../pages/schedules/CreateSchedulePage";
+import GroupSchedulePage from "../pages/schedules/GroupSchedulePage";
+import AllSchedulesPage from "../pages/schedules/AllSchedulesPage";
+import GroupLessonsPage from "../pages/groups/GroupLessonsPage";
+import ScanAttendancePage from "../pages/ScanAttendancePage";
 const AppRoutes = () => {
   return (
     <Router>
@@ -67,7 +69,16 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/scan-attendance"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ScanAttendancePage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/groups/:id/schedule"
           element={
@@ -84,6 +95,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <DashboardLayout>
                 <CreateTeacherPage2 />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups/:id/lessons"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <GroupLessonsPage />
               </DashboardLayout>
             </ProtectedRoute>
           }

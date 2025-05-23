@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import GroupScheduleCalendar from "../components/GroupScheduleCalendar";
+import GroupScheduleCalendar from "../../components/GroupScheduleCalendar";
 
 const GroupSchedulePage = () => {
   const { id } = useParams(); // groupId from URL

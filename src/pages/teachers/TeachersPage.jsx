@@ -40,9 +40,14 @@ const TeachersPage = () => {
       <div className="teachers-list">
         {teachers.map((teacher) => (
           <div key={teacher.id} className="teacher-card">
-            <h3>{teacher.name}</h3>
+            <h3>
+              {teacher.firstName} {teacher.lastName}
+            </h3>
             <p>Phone: {teacher.phoneNumber}</p>
             <p>Email: {teacher.email}</p>
+            <p>Gender: {teacher.gender}</p>
+            <p>Birth Date: {teacher.birthDate}</p>
+            <p>Salary: ₸{teacher.salary}</p>
           </div>
         ))}
       </div>
