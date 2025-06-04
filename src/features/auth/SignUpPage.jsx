@@ -12,7 +12,7 @@ import educationCenterIcon from "../../assets/EducationCenter.png";
 const SignUpPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("EDUCATION CENTER");
+  const [role, setRole] = useState("EDUCATION_CENTER");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
@@ -27,7 +27,7 @@ const SignUpPage = () => {
       toast.success("Registration successful!");
       if (role === "TEACHER") {
         navigate("/create-teacher", { state: { phoneNumber, password } });
-      } else if (role === "EDUCATION CENTER") {
+      } else if (role === "EDUCATION_CENTER") {
         navigate("/create-education-center", {
           state: { phoneNumber, password },
         });
@@ -51,7 +51,7 @@ const SignUpPage = () => {
     if (role === "TEACHER") {
       return teacherIcon;
     }
-    if (role === "EDUCATION CENTER") {
+    if (role === "EDUCATION_CENTER") {
       return educationCenterIcon;
     }
     return null;
@@ -93,7 +93,7 @@ const SignUpPage = () => {
                 onChange={(e) => setRole(e.target.value)}
                 required
               >
-                <option value="EDUCATION CENTER">Education Center</option>
+                <option value="EDUCATION_CENTER">Education Center</option>
                 <option value="TEACHER">Teacher</option>
               </select>
             </div>

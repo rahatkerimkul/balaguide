@@ -9,7 +9,7 @@ const TeachersPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (role !== "EDUCATION CENTER") return;
+    if (role !== "EDUCATION_CENTER") return;
     const fetchTeachers = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -24,7 +24,7 @@ const TeachersPage = () => {
     fetchTeachers();
   }, [role]);
 
-  if (role !== "EDUCATION CENTER") {
+  if (role !== "EDUCATION_CENTER") {
     return (
       <div className="teachers-page-container">
         <h2>Access Denied</h2>

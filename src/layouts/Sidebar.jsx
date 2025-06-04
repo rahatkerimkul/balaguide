@@ -10,7 +10,7 @@ const Sidebar = ({ role }) => {
     { to: "/groups", label: "👥 Groups" },
   ];
 
-  if (role === "EDUCATION CENTER") {
+  if (role === "EDUCATION_CENTER") {
     menuItems.push(
       { to: "/courses", label: "📚 Courses" },
       { to: "/create-course", label: "➕ Create Course" },

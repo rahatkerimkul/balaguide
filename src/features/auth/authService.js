@@ -1,7 +1,7 @@
 import axios from "axios";
 import { authHeader } from "../../utils/authHeader";
 const USE_MOCK = process.env.NODE_ENV === "development";
-const API_URL = USE_MOCK ? "" : "https://balaguide-clone.netbird.cloud:8081";
+const API_URL = "http://balaguide-clone.netbird.cloud:8081";
 
 export const signIn = async (phoneNumber, password) => {
   console.log("Sending:", { phoneNumber, password });
@@ -11,7 +11,10 @@ export const signIn = async (phoneNumber, password) => {
       phoneNumber,
       password,
     },
-    { headers: authHeader() }
+    {
+        headers: authHeader(),
+        withCredentials: true,
+    }
   );
 
   return response.data;
@@ -25,7 +28,10 @@ export const signUp = async (phoneNumber, password, role) => {
       password,
       role,
     },
-    { headers: authHeader() }
+    {
+        headers: authHeader(),
+        withCredentials: true,
+    }
   );
   return response.data;
 };

@@ -87,7 +87,7 @@ const GroupLessonsPage = () => {
     <div className="group-lessons-container">
       <h2>Lessons for Group #{groupId}</h2>
 
-      {(role === "TEACHER" || role === "EDUCATION CENTER") && (
+      {(role === "TEACHER" || role === "EDUCATION_CENTER") && (
         <form onSubmit={handleSubmit} className="lesson-create-form">
           <label>
             Lesson Number:

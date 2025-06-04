@@ -2,7 +2,7 @@
 import axios from "axios";
 import { authHeader } from "../../utils/authHeader";
 import { getToken } from "../../utils/storage";
-const API_URL = "http://balaguide.netbird.cloud:8081/api/v1/teachers";
+const API_URL = "http://balaguide-clone.netbird.cloud:8081/api/v1/teachers";
 
 export const createTeacher = async (teacherData) => {
   const token = getToken();
