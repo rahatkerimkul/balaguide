@@ -96,7 +96,7 @@ const DashboardHome = () => {
                         <Line
                             type="monotone"
                             dataKey="revenue"
-                            stroke="#22c55e"
+                            stroke="#5463d6"
                             strokeWidth={3}
                             dot={{ r: 4 }}
                         />
@@ -114,7 +114,7 @@ const DashboardHome = () => {
                         <YAxis stroke="#4b5563" allowDecimals={false} />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="childrenCount" stroke="#3b82f6" strokeWidth={2} />
+                        <Line type="monotone" dataKey="childrenCount" stroke="#5463d6" strokeWidth={2} />
                     </LineChart>
                 </ResponsiveContainer>
             </DashboardCard>
@@ -127,7 +127,7 @@ const DashboardHome = () => {
                         <XAxis dataKey="courseName" stroke="#4b5563" />
                         <YAxis stroke="#4b5563" />
                         <Tooltip />
-                        <Bar dataKey="revenue" fill="#32b957" name="Revenue (₸)" />
+                        <Bar dataKey="revenue" fill="#5463d6" name="Revenue (₸)" />
                     </BarChart>
                 </ResponsiveContainer>
             </DashboardCard>
@@ -140,7 +140,7 @@ const DashboardHome = () => {
                         <XAxis dataKey="courseName" stroke="#4b5563" />
                         <YAxis stroke="#4b5563" />
                         <Tooltip />
-                        <Bar dataKey="childrenCount" fill="#10b981" name="Children" />
+                        <Bar dataKey="childrenCount" fill="#5463d6" name="Children" />
                     </BarChart>
                 </ResponsiveContainer>
             </DashboardCard>
