@@ -19,7 +19,7 @@ import {
 const Sidebar = ({ role }) => {
   const menuItems = [
     { to: "/dashboard", label: "Dashboard", icon: <FaChartBar /> },
-    { to: "/groups", label: "Groups", icon: <FaUsers /> },
+      { to: "/groups", label: "Groups", icon: <FaUsers /> },
   ];
 
   if (role === "EDUCATION_CENTER") {

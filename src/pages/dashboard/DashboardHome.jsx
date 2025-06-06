@@ -83,7 +83,6 @@ const DashboardHome = () => {
                 <StatCard title="Returning Parents" value={returningParentsCount} />
             </div>
 
-
             {/* Revenue by Month */}
             <DashboardCard title="Monthly Revenue">
                 <ResponsiveContainer width="100%" height={250}>
