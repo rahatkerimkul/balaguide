@@ -37,7 +37,7 @@ const DashboardHome = () => {
                 ["top-courses-by-revenue", setTopCourses],
                 ["children-per-course", setChildrenPerCourse],
                 ["revenue-by-month", setRevenueByMonth],
-                ["children-growth-by-month", setChildrenGrowth],
+                ["children-growth-by-month-fake", setChildrenGrowth], //Потом нужно убрать -fake
                 ["average-course-duration", setAvgDuration],
                 ["average-group-fill-percent", setAvgFillPercent],
                 ["returning-parents-count", setReturningParentsCount],
@@ -102,7 +102,6 @@ const DashboardHome = () => {
                     </LineChart>
                 </ResponsiveContainer>
             </DashboardCard>
-
 
             {/* Children Growth */}
             <DashboardCard title="Monthly Children Growth">
