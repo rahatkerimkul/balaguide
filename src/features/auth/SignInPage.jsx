@@ -1,3 +1,4 @@
+// src/features/SignInPage.jsx
 import React, { useState } from "react";
 import { signIn } from "./authService";
 import { useNavigate } from "react-router-dom";
@@ -26,11 +27,11 @@ const SignInPage = () => {
       console.warn(response);
       console.warn(response.jwtResponseDto.token);
       localStorage.setItem("token", response.jwtResponseDto.token);
-      localStorage.setItem("role", response.user.role); // ✅ Save role here
-      //navigate("/dashboard");
+      localStorage.setItem("role", response.user.role);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      navigate("/dashboard");
 
-      window.location.href = "/dashboard";
-
+      navigate("/dashboard");
     } catch (err) {
       console.error("Error data:", err.response?.data);
       toast.error("Login failed: " + err.response?.data?.message || "Unknown error");

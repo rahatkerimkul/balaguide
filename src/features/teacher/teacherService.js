@@ -1,5 +1,5 @@
 // src/features/teacher/teacherService.js
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import { authHeader } from "../../utils/authHeader";
 import { getToken } from "../../utils/storage";
 import {API_BASE_URL_NETBIRD, API_BASE_URL_LOCAL} from "../../config/api";

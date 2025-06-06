@@ -27,8 +27,8 @@ const CreateEducationCenterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createEducationCenter(formData);
-
+      const response = await createEducationCenter(formData);
+      localStorage.setItem("user", JSON.stringify(response.data));
       toast.success("Education Center created successfully!");
       navigate("/dashboard");
     } catch (error) {

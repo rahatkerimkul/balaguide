@@ -1,3 +1,4 @@
+// src/features/SignUpPage.jsx
 import React, {useState} from "react";
 import {signUp} from "./authService";
 import {useNavigate} from "react-router-dom";
@@ -30,6 +31,7 @@ const SignUpPage = () => {
 
             localStorage.setItem("token", token);
             localStorage.setItem("role", role);
+            localStorage.setItem("user", JSON.stringify(response.user));
 
             toast.success("Registration successful!");
 
