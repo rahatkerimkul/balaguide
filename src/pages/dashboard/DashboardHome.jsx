@@ -1,8 +1,19 @@
-// src/pages/DashboardHome.jsx
+// src/pages/dashboard/DashboardHome.jsx
 import React, { useEffect, useState } from "react";
+import DashboardCard from "./DashboardCard";
 import axiosInstance from "../../utils/axiosInstance";
+import StatCard from "../../components/StatCard";
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Legend,
+    BarChart,
+    Bar,
 } from "recharts";
 
 const DashboardHome = () => {
@@ -34,12 +45,14 @@ const DashboardHome = () => {
 
             await Promise.all(
                 endpoints.map(async ([path, setter]) => {
-                    const res = await axiosInstance.get(`/api/v1/education-centers/${centerId}/dashboard/${path}`);
+                    const res = await axiosInstance.get(
+                        `/api/v1/education-centers/${centerId}/dashboard/${path}`
+                    );
                     setter(res.data.data);
                 })
             );
         } catch (err) {
-            console.error("❌ Ошибка загрузки данных дашборда:", err);
+            console.error("❌ Dashboard load error:", err);
         } finally {
             setLoading(false);
         }
@@ -50,95 +63,87 @@ const DashboardHome = () => {
     }, []);
 
     return (
-        <div className="p-4 space-y-6">
+        <div className="min-h-screen bg-[#f2f4f8] p-6 space-y-8">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold">📊 Обзор центра</h2>
+                <h2 className="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
                 <button
                     onClick={fetchDashboard}
                     disabled={loading}
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
                 >
-                    🔄 Обновить
+                    ↻ Refresh
                 </button>
             </div>
 
-            {/* 💰 Общая выручка */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg">💰 Общая выручка</h3>
-                <p className="text-2xl">{totalRevenue?.toLocaleString("ru-RU")} ₸</p>
+            {/* Stat Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <StatCard title="Total Revenue" value={totalRevenue} unit="₸" />
+                <StatCard title="Avg. Course Duration (weeks)" value={avgDuration} />
+                <StatCard title="Avg. Group Fill" value={avgFillPercent?.toFixed(1)} unit="%" />
+                <StatCard title="Returning Parents" value={returningParentsCount} />
             </div>
 
-            {/* 📈 График: Выручка по месяцам */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg mb-2">📈 Выручка по месяцам</h3>
-                <ResponsiveContainer width="100%" height={300}>
+
+            {/* Revenue by Month */}
+            <DashboardCard title="Monthly Revenue">
+                <ResponsiveContainer width="100%" height={250}>
                     <LineChart data={revenueByMonth}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
+                        <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
+                        <XAxis dataKey="month" stroke="#4b5563" />
+                        <YAxis stroke="#4b5563" />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="revenue" name="₸ Выручка" stroke="#4F46E5" strokeWidth={2} />
+                        <Line
+                            type="monotone"
+                            dataKey="revenue"
+                            stroke="#22c55e"
+                            strokeWidth={3}
+                            dot={{ r: 4 }}
+                        />
                     </LineChart>
                 </ResponsiveContainer>
-            </div>
+            </DashboardCard>
 
-            {/* 👶 График: Рост детей по месяцам */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg mb-2">👶 Рост количества детей</h3>
-                <ResponsiveContainer width="100%" height={300}>
+
+            {/* Children Growth */}
+            <DashboardCard title="Monthly Children Growth">
+                <ResponsiveContainer width="100%" height={250}>
                     <LineChart data={childrenGrowth}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis allowDecimals={false} />
+                        <CartesianGrid stroke="#d1d5db" strokeDasharray="3 3" />
+                        <XAxis dataKey="month" stroke="#4b5563" />
+                        <YAxis stroke="#4b5563" allowDecimals={false} />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="childrenCount" name="Дети" stroke="#10B981" strokeWidth={2} />
+                        <Line type="monotone" dataKey="childrenCount" stroke="#3b82f6" strokeWidth={2} />
                     </LineChart>
                 </ResponsiveContainer>
-            </div>
+            </DashboardCard>
 
-            {/* 🏆 Топ курсы */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg">🏆 Топ курсы по выручке</h3>
-                <ul>
-                    {topCourses.map((course, i) => (
-                        <li key={i}>
-                            {course.courseName} — {course.revenue.toLocaleString("ru-RU")} ₸
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            {/* Top Courses by Revenue */}
+            <DashboardCard title="Top Courses by Revenue">
+                <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={topCourses}>
+                        <CartesianGrid stroke="#d1d5db" strokeDasharray="3 3" />
+                        <XAxis dataKey="courseName" stroke="#4b5563" />
+                        <YAxis stroke="#4b5563" />
+                        <Tooltip />
+                        <Bar dataKey="revenue" fill="#32b957" name="Revenue (₸)" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </DashboardCard>
 
-            {/* 👥 Дети по курсам */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg">👥 Дети по курсам</h3>
-                <ul>
-                    {childrenPerCourse.map((c, i) => (
-                        <li key={i}>
-                            {c.courseName}: {c.childrenCount} детей
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            {/* 📚 Длительность курса */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg">📚 Средняя длительность курса</h3>
-                <p>{avgDuration} недель</p>
-            </div>
-
-            {/* 📊 Заполняемость групп */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg">📊 Средняя заполняемость групп</h3>
-                <p>{avgFillPercent?.toFixed(1)}%</p>
-            </div>
-
-            {/* 🔁 Повторные родители */}
-            <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-semibold text-lg">🔁 Повторно оплатившие родители</h3>
-                <p>{returningParentsCount}</p>
-            </div>
+            {/* Children per Course */}
+            <DashboardCard title="Children Distribution by Course">
+                <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={childrenPerCourse}>
+                        <CartesianGrid stroke="#d1d5db" strokeDasharray="3 3" />
+                        <XAxis dataKey="courseName" stroke="#4b5563" />
+                        <YAxis stroke="#4b5563" />
+                        <Tooltip />
+                        <Bar dataKey="childrenCount" fill="#10b981" name="Children" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </DashboardCard>
         </div>
     );
 };
