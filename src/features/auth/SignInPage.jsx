@@ -27,10 +27,8 @@ const SignInPage = () => {
       console.warn(response);
       console.warn(response.jwtResponseDto.token);
       localStorage.setItem("token", response.jwtResponseDto.token);
-      localStorage.setItem("role", response.user.role);
+      localStorage.setItem("role", response.user.authUser.role);
       localStorage.setItem("user", JSON.stringify(response.user));
-      navigate("/dashboard");
-
       navigate("/dashboard");
     } catch (err) {
       console.error("Error data:", err.response?.data);

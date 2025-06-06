@@ -27,7 +27,8 @@ const DashboardHome = () => {
     const [returningParentsCount, setReturningParentsCount] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const centerId = 1;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const centerId = user?.id;
 
     const fetchDashboard = async () => {
         try {
@@ -37,7 +38,7 @@ const DashboardHome = () => {
                 ["top-courses-by-revenue", setTopCourses],
                 ["children-per-course", setChildrenPerCourse],
                 ["revenue-by-month", setRevenueByMonth],
-                ["children-growth-by-month-fake", setChildrenGrowth], //Потом нужно убрать -fake
+                ["children-growth-by-month", setChildrenGrowth],
                 ["average-course-duration", setAvgDuration],
                 ["average-group-fill-percent", setAvgFillPercent],
                 ["returning-parents-count", setReturningParentsCount],
