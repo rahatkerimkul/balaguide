@@ -1,6 +1,6 @@
 // src/features/SignInPage.jsx
 import React, { useState } from "react";
-import { signIn } from "./authService";
+import { signIn } from "./AuthService";
 import { useNavigate } from "react-router-dom";
 import "./AuthPages.css";
 import { toast } from "react-toastify";

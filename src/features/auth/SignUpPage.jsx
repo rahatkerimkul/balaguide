@@ -1,6 +1,6 @@
 // src/features/SignUpPage.jsx
 import React, {useState} from "react";
-import {signUp} from "./authService";
+import {signUp} from "./AuthService";
 import {useNavigate} from "react-router-dom";
 import "./AuthPages.css";
 import {toast} from "react-toastify";

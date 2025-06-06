@@ -1,8 +1,6 @@
-// src/features/authService.js
+// src/features/AuthService.js
 import axios from "../../utils/axiosInstance";
-import {API_BASE_URL_NETBIRD, API_BASE_URL_LOCAL} from "../../config/api";
 
-const API_URL = `${API_BASE_URL_LOCAL}`;
 
 export const signIn = async (phoneNumber, password) => {
     const response = await axios.post("/auth/sign-in", {
