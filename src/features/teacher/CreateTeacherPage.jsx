@@ -32,7 +32,7 @@ const CreateTeacherPage = () => {
       await createTeacher(formData);
       toast.success("Teacher profile created successfully!");
       const response = await signIn(phoneNumber, password);
-      localStorage.setItem("token", response.token);
+      localStorage.setItem("token", response.jwtResponseDto.token);
       navigate("/dashboard");
     } catch (error) {
       console.error(error.response?.data || error.message);

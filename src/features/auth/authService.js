@@ -1,37 +1,25 @@
-import axios from "axios";
-import { authHeader } from "../../utils/authHeader";
-const USE_MOCK = process.env.NODE_ENV === "development";
-const API_URL = "http://balaguide-clone.netbird.cloud:8081";
+import axios from "../../utils/axiosInstance";
+import {API_BASE_URL_NETBIRD, API_BASE_URL_LOCAL} from "../../config/api";
+
+const API_URL = `${API_BASE_URL_LOCAL}`;
 
 export const signIn = async (phoneNumber, password) => {
-  console.log("Sending:", { phoneNumber, password });
-  const response = await axios.post(
-    `${API_URL}/api/v1/auth/sign-in`,
-    {
-      phoneNumber,
-      password,
-    },
-    {
-        headers: authHeader(),
-        withCredentials: true,
-    }
-  );
+    const response = await axios.post("/auth/sign-in", {
+        phoneNumber,
+        password,
+    });
+    console.warn(response.data.user);
+    console.warn(response.data.jwtResponseDto);
 
-  return response.data;
+    return response.data;
 };
 
 export const signUp = async (phoneNumber, password, role) => {
-  const response = await axios.post(
-    `${API_URL}/auth/sign-up`,
-    {
-      phoneNumber,
-      password,
-      role,
-    },
-    {
-        headers: authHeader(),
-        withCredentials: true,
-    }
-  );
-  return response.data;
+    const response = await axios.post("/auth/sign-up", {
+        phoneNumber,
+        password,
+        role,
+    });
+    console.warn(response.data.token);
+    return response.data;
 };

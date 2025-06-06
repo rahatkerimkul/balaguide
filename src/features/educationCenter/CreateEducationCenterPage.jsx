@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { createEducationCenter } from "./educationCenterService";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import { signIn } from "../auth/authService";
 import "../../styles/AuthForm.css";
 
 const CreateEducationCenterPage = () => {
@@ -28,8 +27,6 @@ const CreateEducationCenterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await signIn(phoneNumber, password);
-      localStorage.setItem("token", response.token);
       await createEducationCenter(formData);
 
       toast.success("Education Center created successfully!");
