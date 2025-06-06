@@ -30,8 +30,7 @@ const SignUpPage = () => {
             if (!token) throw new Error("Token not received");
 
             localStorage.setItem("token", token);
-            localStorage.setItem("role", response.user.role);
-            localStorage.setItem("user", JSON.stringify(response.user));
+            localStorage.setItem("role", role);
 
             toast.success("Registration successful!");
 
