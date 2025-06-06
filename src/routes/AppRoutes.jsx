@@ -21,7 +21,7 @@ import CreateSchedulePage from "../pages/schedules/CreateSchedulePage";
 import GroupSchedulePage from "../pages/schedules/GroupSchedulePage";
 import AllSchedulesPage from "../pages/schedules/AllSchedulesPage";
 import GroupLessonsPage from "../pages/groups/GroupLessonsPage";
-import ScanAttendancePage from "../pages/ScanAttendancePage";
+import ScanAttendancePage from "../pages/teachers/ScanAttendancePage";
 const AppRoutes = () => {
   return (
     <Router>
