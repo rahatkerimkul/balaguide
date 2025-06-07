@@ -25,9 +25,7 @@ const Sidebar = ({ role }) => {
   if (role === "EDUCATION_CENTER") {
     menuItems.push(
         { to: "/courses", label: "Courses", icon: <FaBook /> },
-        { to: "/create-course", label: "Create Course", icon: <FaPlus /> },
         { to: "/teachers", label: "Teachers", icon: <FaChalkboardTeacher /> },
-        { to: "/create-teacher2", label: "Create Teacher", icon: <FaPlus /> },
         { to: "/attendance-reports", label: "Attendance Reports", icon: <FaClipboardList /> }
     );
   } else if (role === "TEACHER") {
