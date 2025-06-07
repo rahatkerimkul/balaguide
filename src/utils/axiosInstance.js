@@ -4,7 +4,7 @@ import {API_BASE_URL_NETBIRD, API_BASE_URL_LOCAL} from "../config/api";
 
 
 const axiosInstance = axios.create({
-    baseURL: `${API_BASE_URL_LOCAL}`,
+    baseURL: `${API_BASE_URL_NETBIRD}`,
     withCredentials: true, // если используешь куки
 });
 

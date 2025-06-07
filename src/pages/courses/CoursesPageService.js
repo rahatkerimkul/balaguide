@@ -17,3 +17,8 @@ export const getCoursesByCenterId = async (centerId) => {
 
     return response.data;
 };
+
+export const updateCourse = async (id, updatedCourse) => {
+    const response = await axiosInstance.put(`/api/v1/courses/${id}`, updatedCourse);
+    return response.data;
+};

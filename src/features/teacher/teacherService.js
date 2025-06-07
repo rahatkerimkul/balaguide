@@ -4,7 +4,7 @@ import { authHeader } from "../../utils/authHeader";
 import { getToken } from "../../utils/storage";
 import {API_BASE_URL_NETBIRD, API_BASE_URL_LOCAL} from "../../config/api";
 
-const API_URL = `${API_BASE_URL_LOCAL}/api/v1/teachers`;
+const API_URL = `${API_BASE_URL_NETBIRD}/api/v1/teachers`;
 export const createTeacher = async (teacherData) => {
   const token = getToken();
 

@@ -9,7 +9,6 @@ import DashboardLayout from "../layouts/DashboardLayout"; //all dashboards are r
 import LandingPage from "../features/landing/LandingPage";
 import DashboardHome from "../pages/dashboard/DashboardHome"; //after signing in person will see this page
 import GroupsPage from "../pages/groups/GroupsPage"; //after signing in
-import CreateCoursePage from "../pages/courses/CreateCoursePage"; //after signing in
 import Logout from "../pages/dashboard/logout";
 import EducationCenterDashboard from "../features/educationCenter/EducationCenterDashboard";
 import CreateGroupPage from "../pages/groups/CreateGroupPage";
@@ -23,6 +22,7 @@ import AllSchedulesPage from "../pages/schedules/AllSchedulesPage";
 import GroupLessonsPage from "../pages/groups/GroupLessonsPage";
 import ScanAttendancePage from "../pages/teachers/ScanAttendancePage";
 import CourseDetailsPage from "../pages/courses/CourseDetailsPage";
+import CourseEditPage from "../pages/courses/CourseEditPage";
 
 const AppRoutes = () => {
     return (
@@ -126,7 +126,6 @@ const AppRoutes = () => {
                     element={
                         <ProtectedRoute>
                             <DashboardLayout>
-                                <CreateCoursePage/>
                             </DashboardLayout>
                         </ProtectedRoute>
                     }
@@ -143,7 +142,12 @@ const AppRoutes = () => {
                 />
                 <Route
                     path="/courses/:courseId"
-                    element={<CourseDetailsPage/>}/>
+                    element={<CourseDetailsPage/>}
+                />
+                <Route
+                    path="/courses/:id/edit"
+                    element={<CourseEditPage />}
+                />
                 <Route
                     path="/create-schedule"
                     element={
