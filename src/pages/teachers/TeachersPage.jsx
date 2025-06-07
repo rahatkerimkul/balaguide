@@ -1,6 +1,6 @@
 // src/pages/teachers/TeacherPage.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import "./TeachersPage.css";
 
@@ -14,10 +14,12 @@ const TeachersPage = () => {
     const fetchTeachers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("/api/v1/teachers", {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const centerId = user?.id;
+        const res = await axiosInstance.get(`/api/v1/teachers/${centerId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setTeachers(res.data);
+        setTeachers(res.data.data);
       } catch (err) {
         console.error("Error fetching teachers", err);
       }
