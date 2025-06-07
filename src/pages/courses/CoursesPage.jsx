@@ -26,20 +26,21 @@ const CoursesPage = () => {
 
   return (
       <div className="p-8">
-        <h2 className="text-2xl font-bold mb-6">Все Курсы</h2>
+        <h2 className="text-2xl font-bold mb-6">Courses</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
               <div
                   key={course.id}
+                  onClick={() => navigate(`/courses/${course.id}`)}
                   className="rounded-2xl bg-blue-50 hover:bg-blue-100 transition-shadow shadow-md hover:shadow-xl p-5 flex flex-col justify-between"
               >
                 <div className="flex items-center justify-between mb-2">
               <span className="bg-yellow-300 text-black text-xs font-semibold px-2 py-1 rounded">
-                Хит продаж
+                Hit of sales
               </span>
                   <span className="text-xs bg-gray-200 px-2 py-1 rounded">
-                Курс
+                Course
               </span>
                 </div>
 
