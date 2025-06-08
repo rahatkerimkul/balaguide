@@ -160,15 +160,16 @@
 }
 
 .download-action {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .download-action:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
+
 
 .upload-action {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -184,16 +185,16 @@
 }
 
 .reupload-action {
-  background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(237, 137, 54, 0.3);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
   position: relative;
   overflow: hidden;
 }
 
 .reupload-action:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(237, 137, 54, 0.4);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .file-input {
