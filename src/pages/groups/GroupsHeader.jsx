@@ -5,8 +5,8 @@ const GroupsHeader = ({ onCreateGroup, searchTerm, onSearchChange, filterStatus,
     return (
         <div className="groups-header">
             <div className="header-title-section">
-                <h1 className="page-title">Группы</h1>
-                <span className="groups-count">{groupsCount} групп</span>
+                <h1 className="page-title">Groups</h1>
+                <span className="groups-count">{groupsCount} groups</span>
             </div>
 
             <div className="header-controls">
@@ -14,7 +14,7 @@ const GroupsHeader = ({ onCreateGroup, searchTerm, onSearchChange, filterStatus,
                     <BiSearch className="search-icon" />
                     <input
                         type="text"
-                        placeholder="Поиск групп..."
+                        placeholder="Search groups..."
                         value={searchTerm}
                         onChange={(e) => onSearchChange(e.target.value)}
                         className="search-input"
@@ -24,16 +24,16 @@ const GroupsHeader = ({ onCreateGroup, searchTerm, onSearchChange, filterStatus,
                 <div className="filter-container">
                     <BiFilter className="filter-icon" />
                     <select value={filterStatus} onChange={(e) => onFilterChange(e.target.value)} className="filter-select">
-                        <option value="all">Все группы</option>
-                        <option value="active">Активные</option>
-                        <option value="full">Заполненные</option>
-                        <option value="empty">Пустые</option>
+                        <option value="all">All Groups</option>
+                        <option value="active">Active</option>
+                        <option value="full">Full</option>
+                        <option value="empty">Empty</option>
                     </select>
                 </div>
 
                 <button className="create-btn" onClick={onCreateGroup}>
                     <BiPlus />
-                    <span>Создать группу</span>
+                    <span>Create New Group</span>
                 </button>
             </div>
         </div>

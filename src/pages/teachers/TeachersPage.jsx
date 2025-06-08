@@ -96,10 +96,10 @@ const TeachersPage = () => {
   return (
       <div className="teachers-container">
         <div className="teachers-header">
-          <h1>Преподаватели</h1>
+          <h1>All Teachers</h1>
           <button className="btn-create" onClick={handleCreateTeacher}>
             <Plus size={16} />
-            <span>Добавить преподавателя</span>
+            <span>Create New Teacher</span>
           </button>
         </div>
 
@@ -108,7 +108,7 @@ const TeachersPage = () => {
             <Search className="search-icon" size={18} />
             <input
                 type="text"
-                placeholder="Поиск преподавателей..."
+                placeholder="Search teachers..."
                 value={searchTerm}
                 onChange={handleSearch}
                 className="search-input"
@@ -121,14 +121,14 @@ const TeachersPage = () => {
                 onClick={() => requestSort("name")}
             >
               <ArrowUpDown size={16} />
-              <span>Имя</span>
+              <span>Name</span>
             </button>
             <button
                 className={`sort-btn ${sortConfig.key === "salary" ? "active" : ""}`}
                 onClick={() => requestSort("salary")}
             >
               <ArrowUpDown size={16} />
-              <span>Зарплата</span>
+              <span>Salary</span>
             </button>
           </div>
         </div>
@@ -156,7 +156,7 @@ const TeachersPage = () => {
                       </h3>
                       <div className="teacher-details">
                         <div className="detail-item">
-                          <span className="detail-label">Телефон:</span>
+                          <span className="detail-label">Phone:</span>
                           <span className="detail-value">{teacher.phoneNumber}</span>
                         </div>
                         <div className="detail-item">
@@ -164,16 +164,16 @@ const TeachersPage = () => {
                           <span className="detail-value">{teacher.email}</span>
                         </div>
                         <div className="detail-item">
-                          <span className="detail-label">Пол:</span>
+                          <span className="detail-label">Gender:</span>
                           <span className="detail-value">{teacher.gender}</span>
                         </div>
                         <div className="detail-item">
-                          <span className="detail-label">Дата рождения:</span>
+                          <span className="detail-label">Date of birth:</span>
                           <span className="detail-value">{teacher.birthDate}</span>
                         </div>
                       </div>
                       <div className="teacher-salary">
-                        <span className="salary-label">Зарплата:</span>
+                        <span className="salary-label">Salary:</span>
                         <span className="salary-value">₸{teacher.salary.toLocaleString()}</span>
                       </div>
                     </div>

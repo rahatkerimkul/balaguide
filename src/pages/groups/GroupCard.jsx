@@ -13,9 +13,9 @@ const GroupCard = ({ group }) => {
     }
 
     const getStatusText = () => {
-        if (group.groupFull) return "Группа заполнена"
-        if (group.currentParticipants === 0) return "Нет участников"
-        return "Активная"
+        if (group.groupFull) return "Group is full"
+        if (group.currentParticipants === 0) return "No children"
+        return "Active"
     }
 
     const participantsPercentage = (group.currentParticipants / group.maxParticipants) * 100
@@ -35,7 +35,7 @@ const GroupCard = ({ group }) => {
                     <div className="info-item">
                         <BiGroup className="info-icon" />
                         <div className="info-content">
-                            <span className="info-label">Участники</span>
+                            <span className="info-label">Children</span>
                             <div className="participants-info">
                 <span className="participants-count">
                   {group.currentParticipants} / {group.maxParticipants}
@@ -50,7 +50,7 @@ const GroupCard = ({ group }) => {
                     <div className="info-item">
                         <BiCalendar className="info-icon" />
                         <div className="info-content">
-                            <span className="info-label">Дата начала</span>
+                            <span className="info-label">Start Date</span>
                             <span className="info-value">{group.startEducationDate?.split("T")[0] || "Не указана"}</span>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ const GroupCard = ({ group }) => {
                     <div className="info-item">
                         <HiOutlineAcademicCap className="info-icon" />
                         <div className="info-content">
-                            <span className="info-label">Курс</span>
+                            <span className="info-label">COURSE</span>
                             <button className="course-link" onClick={() => navigate(`/courses/${group.course?.id}`)}>
                                 {group.course?.name || "Не назначен"}
                             </button>
@@ -68,7 +68,7 @@ const GroupCard = ({ group }) => {
                     <div className="info-item">
                         <BiUser className="info-icon" />
                         <div className="info-content">
-                            <span className="info-label">Детей записано</span>
+                            <span className="info-label">Children are enrolled</span>
                             <span className="info-value">{group.childrenEnrolled?.length || 0}</span>
                         </div>
                     </div>
@@ -78,10 +78,10 @@ const GroupCard = ({ group }) => {
             <div className="group-card-actions">
                 <button className="action-btn primary" onClick={() => navigate(`/groups/${group.id}/lessons`)}>
                     <BiBookOpen />
-                    <span>Уроки</span>
+                    <span>Lesson</span>
                 </button>
                 <button className="action-btn secondary" onClick={() => navigate(`/groups/${group.id}`)}>
-                    <span>Подробнее</span>
+                    <span>Schedule</span>
                 </button>
             </div>
         </div>
