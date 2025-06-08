@@ -1,176 +1,203 @@
-// src/pages/courses/CourseDetailsPage.jsx
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
-import Modal from "react-modal";
-import { FaPlus, FaEdit, FaDollarSign, FaClock, FaChild, FaTag } from "react-icons/fa";
-import { updateCourse } from "./CoursesPageService";
-import {toast} from "react-toastify";
+"use client"
 
-Modal.setAppElement("#root");
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import axiosInstance from "../../utils/axiosInstance"
+import Modal from "react-modal"
+import { FaPlus, FaEdit, FaDollarSign, FaClock, FaChild, FaTag, FaTimes } from "react-icons/fa"
+import { updateCourse } from "./CoursesPageService"
+import { toast } from "react-toastify"
+import "./styles/course-details.css"
+import "./styles/modal.css"
+
+Modal.setAppElement("#root")
 
 const CourseDetailsPage = () => {
-    const { courseId } = useParams();
-    const [course, setCourse] = useState(null);
-    const [isEditOpen, setIsEditOpen] = useState(false);
-    const [editForm, setEditForm] = useState(null);
-    const [isEditingContent, setIsEditingContent] = useState(false);
+    const { courseId } = useParams()
+    const [course, setCourse] = useState(null)
+    const [isEditOpen, setIsEditOpen] = useState(false)
+    const [editForm, setEditForm] = useState(null)
+    const [isEditingContent, setIsEditingContent] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchCourse = async () => {
             try {
+                setLoading(true)
                 const res = await axiosInstance.get(`/api/v1/courses/${courseId}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                setCourse(res.data);
-                setEditForm(res.data);
+                })
+                setCourse(res.data)
+                setEditForm(res.data)
             } catch (error) {
-                console.error("Ошибка при загрузке курса", error);
+                console.error("Error loading course", error)
+                toast.error("Failed to load course details")
+            } finally {
+                setLoading(false)
             }
-        };
-        fetchCourse();
-    }, [courseId]);
+        }
+        fetchCourse()
+    }, [courseId])
 
     const handleEditChange = (e) => {
-        const { name, value } = e.target;
-        setEditForm((prev) => ({ ...prev, [name]: value }));
-    };
+        const { name, value } = e.target
+        setEditForm((prev) => ({ ...prev, [name]: value }))
+    }
 
     const handleEditSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            const updated = await updateCourse(course.id, editForm);
-            setCourse(updated);
-            setIsEditOpen(false);
-            toast.success("Course Updated Successfully!");
+            const updated = await updateCourse(course.id, editForm)
+            setCourse(updated)
+            setIsEditOpen(false)
+            toast.success("Course updated successfully!")
         } catch (err) {
-            console.error("Ошибка при обновлении курса", err);
-            toast.error("Error updating the course");
+            console.error("Error updating course", err)
+            toast.error("Error updating the course")
         }
-    };
+    }
 
     const handleAddLesson = () => {
-        const currentLessons = editForm.content || {};
-        const lessonCount = Object.keys(currentLessons).length + 1;
-        const newKey = `Lesson_${lessonCount}`;
+        const currentLessons = editForm.content || {}
+        const lessonCount = Object.keys(currentLessons).length + 1
+        const newKey = `Lesson_${lessonCount}`
         setEditForm((prev) => ({
             ...prev,
             content: {
                 ...currentLessons,
                 [newKey]: { topic: "", description: "" },
             },
-        }));
-    };
+        }))
+    }
 
-    if (!course) return <div className="p-8">Загрузка...</div>;
+    if (loading) {
+        return (
+            <div className="course-details-container">
+                <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <span style={{ marginLeft: "1rem" }}>Loading course details...</span>
+                </div>
+            </div>
+        )
+    }
+
+    if (!course) {
+        return (
+            <div className="course-details-container">
+                <div className="empty-state">
+                    <h3>Course not found</h3>
+                    <p>The requested course could not be loaded.</p>
+                </div>
+            </div>
+        )
+    }
 
     return (
-        <div className="p-8 max-w-3xl mx-auto bg-white shadow-lg rounded-xl">
-            <div className="flex justify-between items-center mt-8 mb-4">
-                <h1 className="text-3xl font-bold">{course.name}</h1>
-                <button
-                    onClick={() => setIsEditOpen(true)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                    <FaEdit className="text-base" />
+        <div className="course-details-container">
+            <div className="course-details-header">
+                <h1 className="course-details-title">{course.name}</h1>
+                <button onClick={() => setIsEditOpen(true)} className="edit-btn">
+                    <FaEdit />
+                    Edit Course
                 </button>
             </div>
 
-            <p className="text-gray-600 mb-6">{course.description}</p>
+            <p className="course-description">{course.description}</p>
 
-            <div className="space-y-2 text-sm text-gray-800">
-                <div className="flex items-center gap-2">
-                    <FaDollarSign className="text-blue-500" />
-                    <span>{course.price} ₸</span>
+            <div className="course-info-grid">
+                <div className="course-info-item">
+                    <FaDollarSign className="course-info-icon" />
+                    <span className="course-info-text">{course.price} ₸</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <FaClock className="text-blue-500" />
-                    <span>{course.durabilityByWeeks} недель × {course.numberOfLessonsInWeek} в неделю</span>
+                <div className="course-info-item">
+                    <FaClock className="course-info-icon" />
+                    <span className="course-info-text">
+            {course.durabilityByWeeks} weeks × {course.numberOfLessonsInWeek}/week
+          </span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <FaChild className="text-blue-500" />
-                    <span>Возраст: {course.ageRange}</span>
+                <div className="course-info-item">
+                    <FaChild className="course-info-icon" />
+                    <span className="course-info-text">Age: {course.ageRange}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <FaTag className="text-blue-500" />
-                    <span>{course.courseCategory}</span>
+                <div className="course-info-item">
+                    <FaTag className="course-info-icon" />
+                    <span className="course-info-text">{course.courseCategory}</span>
                 </div>
             </div>
 
             {(course.content || editForm?.content) && (
-                <div className="mt-6">
-                    <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-xl font-semibold">Содержание курса:</h2>
-                        <label className="flex items-center gap-3 text-base font-medium text-gray-800">
+                <div className="course-content-section">
+                    <div className="content-header">
+                        <h2 className="content-title">Course Content</h2>
+                        <label className="edit-toggle">
                             <input
                                 type="checkbox"
                                 checked={isEditingContent}
                                 onChange={() => setIsEditingContent((prev) => !prev)}
-                                className="w-5 h-5 accent-[#5463d6] cursor-pointer"
+                                className="edit-checkbox"
                             />
-                            Edit
+                            Edit Content
                         </label>
                     </div>
 
                     {!isEditingContent ? (
-                        <ul className="space-y-2">
+                        <div className="lessons-list">
                             {Object.entries(course.content).map(([lessonKey, lesson]) => (
-                                <li key={lessonKey} className="border rounded-md p-4 bg-gray-50">
-                                    <h3 className="font-bold mb-1">{lesson.topic}</h3>
-                                    <p className="text-sm text-gray-600">{lesson.description}</p>
-                                </li>
+                                <div key={lessonKey} className="lesson-item">
+                                    <h3 className="lesson-title">{lesson.topic}</h3>
+                                    <p className="lesson-description">{lesson.description}</p>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     ) : (
                         <>
-                            <ul className="space-y-2">
+                            <div className="lessons-list">
                                 {Object.entries(editForm.content).map(([lessonKey, lesson]) => (
-                                    <li key={lessonKey} className="border rounded-md p-4 bg-gray-50 space-y-2">
-                                        <input
-                                            type="text"
-                                            className="w-full border p-2 rounded"
-                                            placeholder="Тема урока"
-                                            value={lesson.topic}
-                                            onChange={(e) =>
-                                                setEditForm((prev) => ({
-                                                    ...prev,
-                                                    content: {
-                                                        ...prev.content,
-                                                        [lessonKey]: {
-                                                            ...prev.content[lessonKey],
-                                                            topic: e.target.value,
+                                    <div key={lessonKey} className="lesson-item">
+                                        <div className="lesson-edit-form">
+                                            <input
+                                                type="text"
+                                                className="lesson-input"
+                                                placeholder="Lesson topic"
+                                                value={lesson.topic}
+                                                onChange={(e) =>
+                                                    setEditForm((prev) => ({
+                                                        ...prev,
+                                                        content: {
+                                                            ...prev.content,
+                                                            [lessonKey]: {
+                                                                ...prev.content[lessonKey],
+                                                                topic: e.target.value,
+                                                            },
                                                         },
-                                                    },
-                                                }))
-                                            }
-                                        />
-                                        <textarea
-                                            className="w-full border p-2 rounded"
-                                            placeholder="Описание урока"
-                                            value={lesson.description}
-                                            onChange={(e) =>
-                                                setEditForm((prev) => ({
-                                                    ...prev,
-                                                    content: {
-                                                        ...prev.content,
-                                                        [lessonKey]: {
-                                                            ...prev.content[lessonKey],
-                                                            description: e.target.value,
+                                                    }))
+                                                }
+                                            />
+                                            <textarea
+                                                className="lesson-textarea"
+                                                placeholder="Lesson description"
+                                                value={lesson.description}
+                                                onChange={(e) =>
+                                                    setEditForm((prev) => ({
+                                                        ...prev,
+                                                        content: {
+                                                            ...prev.content,
+                                                            [lessonKey]: {
+                                                                ...prev.content[lessonKey],
+                                                                description: e.target.value,
+                                                            },
                                                         },
-                                                    },
-                                                }))
-                                            }
-                                        />
-                                    </li>
+                                                    }))
+                                                }
+                                            />
+                                        </div>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
 
-                            <button
-                                onClick={handleAddLesson}
-                                className="mt-4 w-full py-3 text-sm bg-[#5463d6] text-white rounded-xl hover:bg-[#3e4db8] font-semibold flex items-center justify-center gap-2"
-                            >
-                                <FaPlus className="text-base" />
-                                Add Lesson
+                            <button onClick={handleAddLesson} className="add-lesson-btn">
+                                <FaPlus />
+                                Add New Lesson
                             </button>
                         </>
                     )}
@@ -180,92 +207,117 @@ const CourseDetailsPage = () => {
             <Modal
                 isOpen={isEditOpen}
                 onRequestClose={() => setIsEditOpen(false)}
-                contentLabel="Редактировать курс"
-                className="bg-white p-6 max-w-xl max-h-[90vh] overflow-y-auto mx-auto mt-20 rounded shadow-lg outline-none"
-                overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50"
+                contentLabel="Edit Course"
+                className="modal-content"
+                overlayClassName="modal-overlay"
             >
-                <h2 className="text-xl font-bold mb-4">Edit course</h2>
+                <div className="modal-header">
+                    <h2 className="modal-title">Edit Course</h2>
+                    <button onClick={() => setIsEditOpen(false)} className="modal-close">
+                        <FaTimes />
+                    </button>
+                </div>
 
                 {editForm && (
-                    <form onSubmit={handleEditSubmit} className="space-y-4">
-                        <input
-                            name="name"
-                            value={editForm.name}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                            placeholder="Название"
-                        />
-                        <textarea
-                            name="description"
-                            value={editForm.description}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                            placeholder="Описание"
-                        />
-                        <select
-                            name="courseCategory"
-                            value={editForm.courseCategory}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                        >
-                            <option value="PROGRAMMING">Программирование</option>
-                            <option value="SPORT">Спорт</option>
-                            <option value="LANGUAGES">Языки</option>
-                            <option value="ART">Искусство</option>
-                            <option value="MATH">Математика</option>
-                        </select>
-                        <input
-                            name="ageRange"
-                            value={editForm.ageRange}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                            placeholder="Возраст (например, 6-10)"
-                        />
-                        <input
-                            name="price"
-                            type="number"
-                            value={editForm.price}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                            placeholder="Цена"
-                        />
-                        <input
-                            name="numberOfLessonsInWeek"
-                            type="number"
-                            value={editForm.numberOfLessonsInWeek}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                            placeholder="Уроков в неделю"
-                        />
-                        <input
-                            name="durabilityByWeeks"
-                            type="number"
-                            value={editForm.durabilityByWeeks}
-                            onChange={handleEditChange}
-                            className="w-full border p-2 rounded"
-                            placeholder="Длительность (в неделях)"
-                        />
+                    <form onSubmit={handleEditSubmit} className="form-container">
+                        <div className="form-group">
+                            <label className="form-label">Course Name</label>
+                            <input
+                                name="name"
+                                value={editForm.name}
+                                onChange={handleEditChange}
+                                className="form-input"
+                                placeholder="Course name"
+                            />
+                        </div>
 
-                        <div className="flex justify-end gap-2 pt-4">
-                            <button
-                                type="button"
-                                onClick={() => setIsEditOpen(false)}
-                                className="px-4 py-2 border rounded"
+                        <div className="form-group">
+                            <label className="form-label">Description</label>
+                            <textarea
+                                name="description"
+                                value={editForm.description}
+                                onChange={handleEditChange}
+                                className="form-textarea"
+                                placeholder="Course description"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Category</label>
+                            <select
+                                name="courseCategory"
+                                value={editForm.courseCategory}
+                                onChange={handleEditChange}
+                                className="form-select"
                             >
+                                <option value="PROGRAMMING">Programming</option>
+                                <option value="SPORT">Sport</option>
+                                <option value="LANGUAGES">Languages</option>
+                                <option value="ART">Art</option>
+                                <option value="MATH">Math</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Age Range</label>
+                            <input
+                                name="ageRange"
+                                value={editForm.ageRange}
+                                onChange={handleEditChange}
+                                className="form-input"
+                                placeholder="e.g., 6-10"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Price (₸)</label>
+                            <input
+                                name="price"
+                                type="number"
+                                value={editForm.price}
+                                onChange={handleEditChange}
+                                className="form-input"
+                                placeholder="Course price"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Lessons per Week</label>
+                            <input
+                                name="numberOfLessonsInWeek"
+                                type="number"
+                                value={editForm.numberOfLessonsInWeek}
+                                onChange={handleEditChange}
+                                className="form-input"
+                                placeholder="Lessons per week"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Duration (weeks)</label>
+                            <input
+                                name="durabilityByWeeks"
+                                type="number"
+                                value={editForm.durabilityByWeeks}
+                                onChange={handleEditChange}
+                                className="form-input"
+                                placeholder="Course duration"
+                            />
+                        </div>
+
+                        <div className="form-actions">
+                            <button type="button" onClick={() => setIsEditOpen(false)} className="btn btn-secondary">
                                 Cancel
                             </button>
-                            <button
-                                type="submit"
-                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                            >
-                                Save
+                            <button type="submit" className="btn btn-primary">
+                                Save Changes
                             </button>
                         </div>
                     </form>
                 )}
             </Modal>
         </div>
-    );
-};
+    )
+}
 
-export default CourseDetailsPage;
+export default CourseDetailsPage
