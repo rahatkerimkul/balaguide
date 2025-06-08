@@ -12,6 +12,8 @@ import {
   FaFileAlt,
   FaCheckCircle,
   FaExclamationCircle,
+  FaQrcode,
+  FaTimes,
 } from "react-icons/fa"
 import { toast } from "react-toastify"
 import "./group-lessons.css"
@@ -21,6 +23,7 @@ const GroupLessonsPage = () => {
   const [lessons, setLessons] = useState([])
   const [loading, setLoading] = useState(true)
   const [uploadingLessons, setUploadingLessons] = useState(new Set())
+  const [qrModal, setQrModal] = useState({ isOpen: false, qrCode: null, lessonId: null, loading: false })
   const navigate = useNavigate()
 
   const fetchLessons = async () => {
@@ -98,6 +101,34 @@ const GroupLessonsPage = () => {
     }
   }
 
+  const handleGenerateQR = async (lessonId) => {
+    try {
+      setQrModal({ isOpen: true, qrCode: null, lessonId, loading: true })
+
+      const token = localStorage.getItem("token")
+      const res = await axiosInstance.get(`/api/v1/teachers/generate-qr/${lessonId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+
+      console.log("QR Response:", res.data) // Добавлено для отладки
+
+      if (res.data && res.data.data) {
+        setQrModal((prev) => ({ ...prev, qrCode: res.data.data, loading: false }))
+        toast.success("QR code generated successfully!")
+      } else {
+        throw new Error("Invalid response format")
+      }
+    } catch (error) {
+      console.error("QR generation error:", error)
+      toast.error("Failed to generate QR code")
+      setQrModal({ isOpen: false, qrCode: null, lessonId: null, loading: false })
+    }
+  }
+
+  const closeQrModal = () => {
+    setQrModal({ isOpen: false, qrCode: null, lessonId: null, loading: false })
+  }
+
   const formatDate = (dateString) => {
     try {
       return new Date(dateString).toLocaleDateString("en-US", {
@@ -109,6 +140,9 @@ const GroupLessonsPage = () => {
       return dateString
     }
   }
+
+  // Добавлено для отладки
+  console.log("QR Modal State:", qrModal)
 
   if (loading) {
     return (
@@ -144,10 +178,15 @@ const GroupLessonsPage = () => {
             <div className="lessons-grid">
               {lessons.map((lesson) => (
                   <div key={lesson.id} className="lesson-card">
-                    <div className="lesson-header">
-                      <span className="lesson-number">Lesson {lesson.lessonNumber}</span>
-                      <h3 className="lesson-title">{lesson.topic}</h3>
-                      <p className="lesson-description">{lesson.description}</p>
+                    <div className="lesson-card-header">
+                      <div className="lesson-info">
+                        <span className="lesson-number">Lesson {lesson.lessonNumber}</span>
+                        <h3 className="lesson-title">{lesson.topic}</h3>
+                        <p className="lesson-description">{lesson.description}</p>
+                      </div>
+                      <button onClick={() => handleGenerateQR(lesson.id)} className="qr-button" title="Generate QR Code">
+                        <FaQrcode />
+                      </button>
                     </div>
 
                     <div className="lesson-date">
@@ -212,6 +251,46 @@ const GroupLessonsPage = () => {
                     </div>
                   </div>
               ))}
+            </div>
+        )}
+
+        {/* QR Code Modal - ИСПРАВЛЕНО */}
+        {qrModal.isOpen && (
+            <div className="qr-modal-overlay" onClick={closeQrModal} style={{ zIndex: 9999 }}>
+              <div className="qr-modal" onClick={(e) => e.stopPropagation()} style={{ zIndex: 10000 }}>
+                <div className="qr-modal-header">
+                  <h3>QR Code for Lesson {lessons.find((l) => l.id === qrModal.lessonId)?.lessonNumber}</h3>
+                  <button className="qr-modal-close" onClick={closeQrModal}>
+                    <FaTimes />
+                  </button>
+                </div>
+                <div className="qr-modal-content">
+                  {qrModal.loading ? (
+                      <div className="qr-loading">
+                        <div className="loading-spinner"></div>
+                        <span>Generating QR code...</span>
+                      </div>
+                  ) : qrModal.qrCode ? (
+                      <div className="qr-code-container">
+                        <img
+                            src={`data:image/png;base64,${qrModal.qrCode}`}
+                            alt="QR Code"
+                            className="qr-code-image"
+                            onError={(e) => {
+                              console.error("QR Image failed to load:", e)
+                              console.log("QR Code data:", qrModal.qrCode.substring(0, 100) + "...")
+                            }}
+                            onLoad={() => console.log("QR Image loaded successfully")}
+                        />
+                        <p className="qr-code-description">Scan this QR code for attendance</p>
+                      </div>
+                  ) : (
+                      <div className="qr-error">
+                        <p>Failed to generate QR code</p>
+                      </div>
+                  )}
+                </div>
+              </div>
             </div>
         )}
       </div>

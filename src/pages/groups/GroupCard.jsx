@@ -81,7 +81,7 @@ const GroupCard = ({ group }) => {
                     <span>Lesson</span>
                 </button>
                 <button className="action-btn secondary" onClick={() => navigate(`/groups/${group.id}`)}>
-                    <span>Schedule</span>
+                    <span>Details</span>
                 </button>
             </div>
         </div>

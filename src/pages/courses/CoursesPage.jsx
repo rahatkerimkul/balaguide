@@ -45,7 +45,7 @@ const CoursesPage = () => {
     return (
         <div className="courses-container">
             <div className="page-header">
-                <h1 className="page-title">My Courses</h1>
+                <h1 className="page-title">All Courses</h1>
             </div>
 
             {courses.length === 0 ? (

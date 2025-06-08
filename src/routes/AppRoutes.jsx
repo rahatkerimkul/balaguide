@@ -23,6 +23,7 @@ import GroupLessonsPage from "../pages/groups/GroupLessonsPage";
 import ScanAttendancePage from "../pages/teachers/ScanAttendancePage";
 import CourseDetailsPage from "../pages/courses/CourseDetailsPage";
 import CourseEditPage from "../pages/courses/CourseEditPage";
+import ChildrenPage from "../pages/children/ChildrenPage";
 
 const AppRoutes = () => {
     return (
@@ -65,6 +66,9 @@ const AppRoutes = () => {
                         </ProtectedRoute>
                     }
                 />
+                <Route
+                    path="/children"
+                    element={<ChildrenPage />} />
 
                 <Route
                     path="/groups"

@@ -26,6 +26,7 @@ const Sidebar = ({ role }) => {
     menuItems.push(
         { to: "/courses", label: "Courses", icon: <FaBook /> },
         { to: "/teachers", label: "Teachers", icon: <FaChalkboardTeacher /> },
+        { to: "/children", label: "Children", icon: <FaUsers /> },
         { to: "/attendance-reports", label: "Attendance Reports", icon: <FaClipboardList /> }
     );
   } else if (role === "TEACHER") {

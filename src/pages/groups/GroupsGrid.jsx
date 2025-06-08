@@ -26,8 +26,7 @@ const GroupsGrid = ({ groups, loading, error }) => {
         return (
             <div className="empty-state">
                 <div className="empty-icon">📚</div>
-                <h3>Групп пока нет</h3>
-                <p>Создайте первую группу для начала работы</p>
+                <h3>No Groups</h3>
             </div>
         )
     }
