@@ -1,57 +1,80 @@
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosInstance";
-import { useParams, useNavigate } from "react-router-dom";
-import { FaDownload, FaUpload, FaCalendarAlt } from "react-icons/fa";
-import {toast} from "react-toastify";
+"use client"
+
+import { useEffect, useState } from "react"
+import axiosInstance from "../../utils/axiosInstance"
+import { useParams, useNavigate } from "react-router-dom"
+import {
+  FaDownload,
+  FaUpload,
+  FaCalendarAlt,
+  FaArrowLeft,
+  FaBookOpen,
+  FaFileAlt,
+  FaCheckCircle,
+  FaExclamationCircle,
+} from "react-icons/fa"
+import { toast } from "react-toastify"
+import "./group-lessons.css"
 
 const GroupLessonsPage = () => {
-  const { groupId } = useParams();
-  const [lessons, setLessons] = useState([]);
-  const navigate = useNavigate();
+  const { groupId } = useParams()
+  const [lessons, setLessons] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [uploadingLessons, setUploadingLessons] = useState(new Set())
+  const navigate = useNavigate()
 
   const fetchLessons = async () => {
     try {
-      const token = localStorage.getItem("token");
+      setLoading(true)
+      const token = localStorage.getItem("token")
       const res = await axiosInstance.get(`/api/v1/groups/${groupId}/lessons`, {
         headers: { Authorization: `Bearer ${token}` },
-      });
-      setLessons(res.data.data);
+      })
+      setLessons(res.data.data)
     } catch (error) {
-      console.error("Error fetching lessons:", error);
+      console.error("Error fetching lessons:", error)
+      toast.error("Failed to load lessons")
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchLessons();
-  }, [groupId]);
+    fetchLessons()
+  }, [groupId])
 
   const handleDownload = async (lessonId, fileName) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       const res = await axiosInstance.get(`/api/v1/lessons/${lessonId}/download`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: "blob",
-      });
+      })
 
-      const blob = new Blob([res.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      const blob = new Blob([res.data], { type: "application/pdf" })
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = url
+      link.setAttribute("download", fileName)
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(url)
+
+      toast.success("File downloaded successfully!")
     } catch (error) {
-      console.error("Download error:", error);
-      toast.error("⚠ Failed to download the file.");
+      console.error("Download error:", error)
+      toast.error("Failed to download the file")
     }
-  };
+  }
 
   const handleUpload = async (lessonId, file) => {
     try {
-      const token = localStorage.getItem("token");
-      const fileBytes = await file.arrayBuffer();
-      const uint8Array = new Uint8Array(fileBytes);
+      setUploadingLessons((prev) => new Set([...prev, lessonId]))
+
+      const token = localStorage.getItem("token")
+      const fileBytes = await file.arrayBuffer()
+      const uint8Array = new Uint8Array(fileBytes)
 
       await axiosInstance.post(`/api/v1/lessons/${lessonId}/upload`, uint8Array, {
         headers: {
@@ -59,87 +82,140 @@ const GroupLessonsPage = () => {
           "Content-Type": "application/octet-stream",
         },
         params: { fileName: file.name },
-      });
+      })
 
-      toast.success("✅ File Uploaded!");
-      fetchLessons();
+      toast.success("File uploaded successfully!")
+      fetchLessons()
     } catch (err) {
-      console.error("Upload error:", err);
-      toast.error("⚠ Failed to upload the file.");
+      console.error("Upload error:", err)
+      toast.error("Failed to upload the file")
+    } finally {
+      setUploadingLessons((prev) => {
+        const newSet = new Set(prev)
+        newSet.delete(lessonId)
+        return newSet
+      })
     }
-  };
+  }
+
+  const formatDate = (dateString) => {
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    } catch {
+      return dateString
+    }
+  }
+
+  if (loading) {
+    return (
+        <div className="group-lessons-container">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <span className="loading-text">Loading lessons...</span>
+          </div>
+        </div>
+    )
+  }
 
   return (
-      <div className="p-6 bg-gray-50 min-h-screen">
-        <div className="mb-4 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">Lessons for Group #{groupId}</h2>
-          <button
-              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-              onClick={() => navigate(-1)}
-          >
-            ⬅ Back
+      <div className="group-lessons-container">
+        <div className="lessons-header">
+          <h1 className="lessons-title">
+            <FaBookOpen className="lessons-title-icon" />
+            Group #{groupId} Lessons
+          </h1>
+          <button className="back-button" onClick={() => navigate(-1)}>
+            <FaArrowLeft />
+            Back to Groups
           </button>
         </div>
 
         {lessons.length === 0 ? (
-            <p>No lessons found for this group.</p>
+            <div className="empty-state">
+              <FaFileAlt className="empty-state-icon" />
+              <h3>No Lessons Found</h3>
+              <p>This group doesn't have any lessons yet. Lessons will appear here once they're created.</p>
+            </div>
         ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="lessons-grid">
               {lessons.map((lesson) => (
-                  <div
-                      key={lesson.id}
-                      className="bg-white p-5 rounded-xl shadow-md border border-gray-200"
-                  >
-                    <h3 className="text-lg font-semibold mb-1">
-                      Lesson {lesson.lessonNumber}: {lesson.topic}
-                    </h3>
-                    <p className="mb-1 text-gray-700">{lesson.description}</p>
-                    <p className="flex items-center text-sm text-gray-500">
-                      <FaCalendarAlt className="mr-1" /> {lesson.date}
-                    </p>
+                  <div key={lesson.id} className="lesson-card">
+                    <div className="lesson-header">
+                      <span className="lesson-number">Lesson {lesson.lessonNumber}</span>
+                      <h3 className="lesson-title">{lesson.topic}</h3>
+                      <p className="lesson-description">{lesson.description}</p>
+                    </div>
 
-                    {lesson.fileUrl ? (
-                        <div className="flex flex-col gap-2 mt-3">
-                          <button
-                              onClick={() => handleDownload(lesson.id, lesson.fileUrl)}
-                              className="text-blue-600 hover:underline inline-flex items-center gap-1"
-                          >
-                            <FaDownload /> Download Materials
-                          </button>
+                    <div className="lesson-date">
+                      <FaCalendarAlt className="lesson-date-icon" />
+                      <span>{formatDate(lesson.date)}</span>
+                    </div>
 
-                          <label className="text-purple-600 hover:underline cursor-pointer inline-flex items-center gap-1">
-                            <FaUpload /> Re-upload
-                            <input
-                                type="file"
-                                accept=".pdf"
-                                className="hidden"
-                                onChange={(e) => {
-                                  const file = e.target.files[0];
-                                  if (file) handleUpload(lesson.id, file);
-                                }}
-                            />
-                          </label>
-                        </div>
-                    ) : (
-                        <label className="text-purple-600 hover:underline cursor-pointer inline-flex items-center gap-1 mt-3">
-                          <FaUpload /> Upload Materials
-                          <input
-                              type="file"
-                              accept=".pdf"
-                              className="hidden"
-                              onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (file) handleUpload(lesson.id, file);
-                              }}
-                          />
-                        </label>
-                    )}
+                    <div className="lesson-actions">
+                      {lesson.fileUrl ? (
+                          <>
+                            <button
+                                onClick={() => handleDownload(lesson.id, lesson.fileUrl)}
+                                className="file-action download-action"
+                            >
+                              <FaDownload className="action-icon" />
+                              Download Materials
+                            </button>
+
+                            <label className="file-action reupload-action">
+                              <FaUpload className="action-icon" />
+                              {uploadingLessons.has(lesson.id) ? "Uploading..." : "Replace File"}
+                              <input
+                                  type="file"
+                                  accept=".pdf,.doc,.docx,.ppt,.pptx"
+                                  className="file-input"
+                                  onChange={(e) => {
+                                    const file = e.target.files[0]
+                                    if (file) handleUpload(lesson.id, file)
+                                  }}
+                                  disabled={uploadingLessons.has(lesson.id)}
+                              />
+                            </label>
+
+                            <div className="file-status uploaded">
+                              <FaCheckCircle />
+                              <span>Materials available</span>
+                            </div>
+                          </>
+                      ) : (
+                          <>
+                            <label className="file-action upload-action">
+                              <FaUpload className="action-icon" />
+                              {uploadingLessons.has(lesson.id) ? "Uploading..." : "Upload Materials"}
+                              <input
+                                  type="file"
+                                  accept=".pdf,.doc,.docx,.ppt,.pptx"
+                                  className="file-input"
+                                  onChange={(e) => {
+                                    const file = e.target.files[0]
+                                    if (file) handleUpload(lesson.id, file)
+                                  }}
+                                  disabled={uploadingLessons.has(lesson.id)}
+                              />
+                            </label>
+
+                            <div className="file-status no-file">
+                              <FaExclamationCircle />
+                              <span>No materials uploaded</span>
+                            </div>
+                          </>
+                      )}
+                    </div>
                   </div>
               ))}
             </div>
         )}
       </div>
-  );
-};
+  )
+}
 
-export default GroupLessonsPage;
+export default GroupLessonsPage
