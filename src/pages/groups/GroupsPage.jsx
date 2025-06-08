@@ -74,7 +74,15 @@ const GroupsPage = () => {
                         </p>
                         <p><span className="font-medium">Start Date:</span> {group.startEducationDate?.split("T")[0]}
                         </p>
-                        <p><span className="font-medium">Course:</span> {group.course?.name}</p>
+                        <p>
+                            <span className="font-medium">Course:</span>{" "}
+                            <button
+                                className="text-blue-600 hover:underline"
+                                onClick={() => navigate(`/courses/${group.course?.id}`)}
+                            >
+                                {group.course?.name}
+                            </button>
+                        </p>
                         <p><span className="font-medium">Children:</span> {group.childrenEnrolled.length}</p>
 
                         {group.groupFull && (

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CreateSchedulePage.css";
+import {toast} from "react-toastify";
 
 const CreateSchedulePage = () => {
   const [groups, setGroups] = useState([]);
@@ -51,10 +52,10 @@ const CreateSchedulePage = () => {
           },
         }
       );
-      alert("Schedule created successfully!");
+      toast.success("Schedule created successfully!");
     } catch (err) {
       console.error("Failed to create schedule", err);
-      alert("Error occurred.");
+      toast.error("Error occurred.");
     }
   };
 

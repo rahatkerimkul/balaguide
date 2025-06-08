@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {toast} from "react-toastify";
 
 const CreateGroupPage = () => {
   const [formData, setFormData] = useState({
@@ -49,11 +50,11 @@ const CreateGroupPage = () => {
             },
           }
       );
-      alert("Group created successfully!");
+      toast.success("Group created successfully!");
       navigate("/groups");
     } catch (error) {
       console.error("Error creating group:", error);
-      alert("Failed to create group.");
+      toast.error("Failed to create group.");
     }
   };
 

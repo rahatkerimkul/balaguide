@@ -5,6 +5,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import Modal from "react-modal";
 import { FaPlus, FaEdit, FaDollarSign, FaClock, FaChild, FaTag } from "react-icons/fa";
 import { updateCourse } from "./CoursesPageService";
+import {toast} from "react-toastify";
 
 Modal.setAppElement("#root");
 
@@ -41,10 +42,10 @@ const CourseDetailsPage = () => {
             const updated = await updateCourse(course.id, editForm);
             setCourse(updated);
             setIsEditOpen(false);
-            alert("Course Updated Successfully!");
+            toast.success("Course Updated Successfully!");
         } catch (err) {
             console.error("Ошибка при обновлении курса", err);
-            alert("Ошибка при обновлении курса");
+            toast.error("Error updating the course");
         }
     };
 

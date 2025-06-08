@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import axiosInstance from "../../utils/axiosInstance";
+import {toast} from "react-toastify";
 
 Modal.setAppElement("#root");
 
@@ -45,12 +46,12 @@ const CreateCourseModal = ({ isOpen, onClose, centerId }) => {
                     },
                 }
             );
-            alert("Course created!");
+            toast.success("Course created!");
             onClose();
             window.location.reload();
         } catch (err) {
             console.error("Error creating course", err);
-            alert("Failed to create course.");
+            toast.error("Failed to create course.");
         } finally {
             setLoading(false);
         }

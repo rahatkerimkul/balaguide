@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {getCoursesByCenterId, updateCourse} from "./CoursesPageService";
+import {toast} from "react-toastify";
 
 const CourseEditPage = () => {
     const { id } = useParams();
@@ -42,11 +43,11 @@ const CourseEditPage = () => {
         e.preventDefault();
         try {
             await updateCourse(id, form);
-            alert("Курс обновлён!");
+            toast.success("Courses successfully updated!");
             navigate("/courses");
         } catch (err) {
             console.error("Ошибка при обновлении курса", err);
-            alert("Ошибка при обновлении курса");
+            toast.error("Error updating the course");
         }
     };
 
