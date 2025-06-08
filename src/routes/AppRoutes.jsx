@@ -51,6 +51,11 @@ const AppRoutes = () => {
                     }
                 />
                 <Route
+                    path="/groups/:groupId/lessons"
+                    element={<GroupLessonsPage />}
+                />
+
+                <Route
                     path="/create-group"
                     element={
                         <ProtectedRoute>
