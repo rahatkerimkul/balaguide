@@ -68,7 +68,14 @@ const AppRoutes = () => {
                 />
                 <Route
                     path="/children"
-                    element={<ChildrenPage />} />
+                    element={
+                        <ProtectedRoute>
+                            <DashboardLayout>
+                                <ChildrenPage/>
+                            </DashboardLayout>
+                        </ProtectedRoute>
+                    }
+                />
 
                 <Route
                     path="/groups"

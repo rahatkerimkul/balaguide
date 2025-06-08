@@ -1,6 +1,6 @@
 // src/pages/CreateGroupPage.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 
@@ -20,9 +20,32 @@ const CreateGroupPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/v1/courses").then((res) => setCourses(res.data));
-    axios.get("/api/v1/teachers").then((res) => setTeachers(res.data));
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const user = JSON.parse(localStorage.getItem("user"));
+        const centerId = user?.id;
+
+        const [coursesRes, teachersRes] = await Promise.all([
+          axiosInstance.get(`/api/v1/education-centers/${centerId}/courses`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axiosInstance.get(`/api/v1/teachers/${centerId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        setCourses(coursesRes.data);
+        setTeachers(teachersRes.data.data); // так как ApiResponse<T> обёрнут
+      } catch (err) {
+        console.error("Failed to fetch courses or teachers:", err);
+        toast.error("Ошибка при загрузке курсов или учителей.");
+      }
+    };
+
+    fetchData();
   }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +57,7 @@ const CreateGroupPage = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.post(
+      await axiosInstance.post(
           "/api/v1/groups/create",
           {
             ...formData,
@@ -60,7 +83,6 @@ const CreateGroupPage = () => {
 
   return (
       <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md mt-8">
-        <h2 className="text-2xl font-bold mb-4">Create New Group</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Group Name</label>
